@@ -32,13 +32,7 @@
                 <label for="phonenumber" class="form-label">Teléfono</label>
                 <input type="text" name="phonenumber" class="form-control" required>
             </div>
-            <div class="mb-3">
-                <label for="role_id" class="form-label">Rol</label>
-                <select name="role_id" class="form-control" required>
-                    <option value="1">Admin</option>
-                    <option value="2">Usuario</option>
-                </select>
-            </div>
+            
             <button type="submit" class="btn btn-primary w-100">Registrarse</button>
         </form>
         <p class="mt-3 text-center">

@@ -43,7 +43,7 @@ class AuthController extends Controller
             return back()->with('error', 'Credenciales incorrectas.');
         }
 
-        return redirect()->route('home');
+        return redirect()->route('reservas.index');
     }
 
     public function logout(Request $request)
