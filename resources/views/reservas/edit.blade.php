@@ -10,7 +10,7 @@
 
         <div class="mb-3">
             <label class="form-label">Cancha</label>
-            <select name="cancha_id" class="form-control">
+            <select name="cancha_id" class="form-control" disable>
                 @foreach($canchas as $cancha)
                     <option value="{{ $cancha->id }}" {{ $reserva->cancha_id == $cancha->id ? 'selected' : '' }}>
                         {{ $cancha->nombre }}

@@ -19,23 +19,10 @@
 
                     <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 p-3 rounded">
                         <h5 class="text-white">{{ $cancha->nombre }}</h5>
-
-                        <form action="{{ route('reservas.store') }}" method="POST" class="mt-3">
-                            @csrf
-                            <input type="hidden" name="cancha_id" value="{{ $cancha->id }}">
-
-                            <div class="mb-2">
-                                <label class="form-label text-white">Fecha:</label>
-                                <input type="date" name="fecha" class="form-control" required>
-                            </div>
-
-                            <div class="mb-2">
-                                <label class="form-label text-white">Hora:</label>
-                                <input type="time" name="hora" class="form-control" required>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100">Reservar</button>
-                        </form>
+                        <!-- Botón para abrir el modal -->
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalReserva{{ $cancha->id }}">
+                            Reservar
+                        </button>
                     </div>
                 </div>
             @endforeach
@@ -48,5 +35,38 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
         </button>
     </div>
+
+    <!-- Modales para cada cancha -->
+    @foreach($canchas as $cancha)
+    <div class="modal fade" id="modalReserva{{ $cancha->id }}" tabindex="-1" aria-labelledby="modalReservaLabel{{ $cancha->id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalReservaLabel{{ $cancha->id }}">Reservar {{ $cancha->nombre }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('reservas.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="cancha_id" value="{{ $cancha->id }}">
+
+                        <div class="mb-2">
+                            <label class="form-label">Fecha:</label>
+                            <input type="date" name="fecha" class="form-control" required>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label">Hora:</label>
+                            <input type="time" name="hora" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Confirmar Reserva</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+
 </div>
 @endsection
