@@ -33,18 +33,28 @@ class AuthController extends Controller
     
 
     public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
 
-        if (!Auth::attempt($credentials)) {
-            return back()->with('error', 'Credenciales incorrectas.');
-        }
-
-        return redirect()->route('reservas.index');
+    if (!Auth::attempt($credentials)) {
+        return back()->with('error', 'Credenciales incorrectas.');
     }
+
+    $user = Auth::user();
+
+    // Redirigir según el rol del usuario
+    if ($user->role_id == 1) { 
+        return redirect()->route('admin.index');  // Ruta del menú para administradores
+    } elseif ($user->role_id == 2) {
+        return redirect()->route('reservas.index');  // Ruta del menú para clientes
+    } else {
+        return redirect()->route('login');  // Ruta por defecto si el rol no está definido
+    }
+}
+
 
     public function logout(Request $request)
     {

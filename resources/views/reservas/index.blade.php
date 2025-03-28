@@ -4,17 +4,21 @@
 <div class="container">
     <h2 class="text-center my-4">Reservar Cancha</h2>
 
+    <!-- Botón para ver mis reservas -->
+    <div class="text-end mb-3">
+        <a href="{{ route('reservas.misReservas') }}" class="btn btn-secondary">Ver Mis Reservas</a>
+    </div>
+
     <div id="carrusel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             @foreach($canchas as $index => $cancha)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                <img src="{{ $cancha->imagen }}"  class="d-block w-100" 
-     style="height: 400px; object-fit: cover;" 
-     alt="{{ $cancha->nombre }}">
+                    <img src="{{ $cancha->imagen }}" class="d-block w-100" 
+                        style="height: 400px; object-fit: cover;" 
+                        alt="{{ $cancha->nombre }}">
 
-                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 p-3 rounded">
+                    <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 p-3 rounded">
                         <h5 class="text-white">{{ $cancha->nombre }}</h5>
-                     
 
                         <form action="{{ route('reservas.store') }}" method="POST" class="mt-3">
                             @csrf
@@ -46,11 +50,3 @@
     </div>
 </div>
 @endsection
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var myCarousel = new bootstrap.Carousel(document.querySelector('#carrusel'), {
-            interval: 3000, // Cambia cada 3 segundos
-            ride: 'carousel'
-        });
-    });
-</script>

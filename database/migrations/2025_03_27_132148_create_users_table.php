@@ -12,13 +12,16 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('document')->unique();
-            $table->string('phonenumber');
-            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
+            $table->string('document')->unique(); // Asegúrate de que esta línea está presente
+    $table->string('phonenumber');
+            $table->unsignedBigInteger('role_id'); // Debe ser unsigned
             $table->timestamps();
+        
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
+        
     }
-
+  
     public function down()
     {
         Schema::dropIfExists('users');
