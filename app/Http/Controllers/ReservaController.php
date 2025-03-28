@@ -18,6 +18,27 @@ class ReservaController extends Controller
         $canchas = Cancha::all();
         return view('reservas.index', compact('canchas'));
     }
+    public function listarReservas()
+{
+    // Obtener todas las reservas con la información del usuario y la cancha
+    $reservas = Reserva::with('user', 'cancha')->orderBy('fecha', 'desc')->get();
+
+
+    return view('admin.reservas', compact('reservas'));
+}
+public function finalizar($id)
+{
+    $reserva = Reserva::findOrFail($id);
+    $estadoFinalizado = Estado::where('name', 'Finalizado')->first();
+
+    if ($estadoFinalizado) {
+        $reserva->estado_id = $estadoFinalizado->id;
+        $reserva->save();
+    }
+
+    return redirect()->back()->with('success', 'Reserva marcada como Finalizada.');
+}
+
     public function misReservas()
     {
         $reservas = Reserva::where('user_id', Auth::id())
@@ -63,6 +84,14 @@ class ReservaController extends Controller
     return redirect()->route('reservas.index')->with('success', 'Reserva realizada con éxito');
 }
 
+public function cancelar($id)
+{
+    $reserva = Reserva::findOrFail($id);
+    $reserva->estado_id = 2; // Asumiendo que 3 es el ID del estado "Cancelado"
+    $reserva->save();
+
+    return redirect()->back()->with('success', 'Reserva cancelada correctamente.');
+}
 
 public function update(Request $request, $id)
 {

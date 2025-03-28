@@ -43,6 +43,9 @@ Route::middleware(['auth', 'role:Administrador'])->group(function () {
     Route::get('/usuarios', [UserController::class, 'index'])->name('admin.user');
     Route::get('/usuarios/{id}/edit', [UserController::class, 'edit'])->name('usuarios.edit'); 
     Route::put('/usuarios/{id}/update-role', [UserController::class, 'updateRole'])->name('usuarios.updateRole');
+    Route::put('/reservas/{id}/finalizar', [ReservaController::class, 'finalizar'])->name('reservas.finalizar');
+
+    Route::get('/admin/reservas', [ReservaController::class, 'listarReservas'])->name('admin.reservas');
 });
 
 // Rutas para Cliente
@@ -53,4 +56,7 @@ Route::middleware(['auth', 'role:Cliente'])->group(function () {
     Route::delete('/reservas/{id}', [ReservaController::class, 'destroy'])->name('reservas.destroy');
     Route::get('/reservas/{id}/edit', [ReservaController::class, 'edit'])->name('reservas.edit');
     Route::put('/reservas/{id}', [ReservaController::class, 'update'])->name('reservas.update');
+    Route::put('/reservas/{id}/cancelar', [ReservaController::class, 'cancelar'])->name('reservas.cancelar');
+
 });
+

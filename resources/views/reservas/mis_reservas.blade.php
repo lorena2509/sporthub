@@ -19,16 +19,23 @@
         <tbody>
             @foreach($reservas as $reserva)
                 <tr>
-                  
                     <td>{{ $reserva->cancha->nombre ?? 'Desconocida' }}</td>  
-                    <td>{{ $reserva->estado->name}}</td> 
+                    <td>{{ $reserva->estado->name }}</td> 
                     <td>{{ $reserva->fecha }}</td>
                     <td>{{ $reserva->start_time }}</td>
                     <td>{{ $reserva->end_time }}</td>
                     <td>{{ $reserva->fecha_creada }}</td>
                     <td>
-                        <!-- Botón Modificar -->
-                        <a href="{{ route('reservas.edit', $reserva->id) }}" class="btn btn-warning btn-sm">Modificar</a>
+                        @if($reserva->estado->name == 'Reservado')
+                            <!-- Botón para cancelar la reserva -->
+                            <form action="{{ route('reservas.cancelar', $reserva->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas cancelar esta reserva?');">
+                                    Cancelar
+                                </button>
+                            </form>
+                        @endif
 
                         <!-- Botón Eliminar -->
                         <form action="{{ route('reservas.destroy', $reserva->id) }}" method="POST" style="display:inline;">

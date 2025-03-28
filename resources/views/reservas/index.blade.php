@@ -19,6 +19,8 @@
 
                     <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 p-3 rounded">
                         <h5 class="text-white">{{ $cancha->nombre }}</h5>
+                        <p class="text-white">Ubicación: {{ $cancha->ubicacion }}</p>
+                        <p class="text-white">Capacidad: {{ $cancha->capacidad }} personas</p>
                         <!-- Botón para abrir el modal -->
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalReserva{{ $cancha->id }}">
                             Reservar
@@ -46,6 +48,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
+                    <p><strong>Ubicación:</strong> {{ $cancha->ubicacion }}</p>
+                    <p><strong>Capacidad:</strong> {{ $cancha->capacidad }} personas</p>
+                    
                     <form action="{{ route('reservas.store') }}" method="POST">
                         @csrf
                         <input type="hidden" name="cancha_id" value="{{ $cancha->id }}">
