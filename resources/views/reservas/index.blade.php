@@ -13,7 +13,7 @@
         <div class="carousel-inner">
             @foreach($canchas as $index => $cancha)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                    <img src="{{ $cancha->imagen }}" class="d-block w-100" 
+                    <img src="{{ asset('storage/' . $cancha->imagen) }}" class="d-block w-100" 
                         style="height: 400px; object-fit: cover;" 
                         alt="{{ $cancha->nombre }}">
 

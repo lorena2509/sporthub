@@ -3,41 +3,53 @@
 @section('title', 'Registro')
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <h2 class="text-center">Registro</h2>
-        <form action="{{ route('register.post') }}" method="POST">
-            @csrf
-            <div class="mb-3">
-                <label for="name" class="form-label">Nombre</label>
-                <input type="text" name="name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Correo Electrónico</label>
-                <input type="email" name="email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" name="password" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
-                <input type="password" name="password_confirmation" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="document" class="form-label">Documento</label>
-                <input type="text" name="document" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="phonenumber" class="form-label">Teléfono</label>
-                <input type="text" name="phonenumber" class="form-control" required>
-            </div>
-            
-            <button type="submit" class="btn btn-primary w-100">Registrarse</button>
-        </form>
-        <p class="mt-3 text-center">
-            ¿Ya tienes cuenta? <a href="{{ route('login') }}">Iniciar sesión</a>
-        </p>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card">
+        <div class="card2">
+            <form class="form" action="{{ route('register.post') }}" method="POST">
+                @csrf
+                <p id="heading">Registro</p>
+
+                <div class="field">
+                    <input type="text" name="name" class="input-field" placeholder="Nombre" required>
+                </div>
+
+                <div class="field">
+                    <input type="email" name="email" class="input-field" placeholder="Correo Electrónico" required>
+                </div>
+
+                <div class="field">
+                    <input type="password" name="password" class="input-field" placeholder="Contraseña" required>
+                </div>
+
+                <div class="field">
+                    <input type="password" name="password_confirmation" class="input-field" placeholder="Confirmar Contraseña" required>
+                </div>
+
+                <div class="field">
+                    <input type="text" name="document" class="input-field" placeholder="Documento" required>
+                </div>
+
+                <div class="field">
+                    <input type="text" name="phonenumber" class="input-field" placeholder="Teléfono" required>
+                </div>
+
+                <div class="field">
+                    <select name="role_id" class="input-field" required>
+                        <option value="1">Admin</option>
+                        <option value="2">Usuario</option>
+                    </select>
+                </div>
+
+                <div class="btn">
+                    <button type="submit" class="button1">Registrarse</button>
+                </div>
+
+                <p class="text-center">
+                    ¿Ya tienes cuenta? <a href="{{ route('login') }}">Iniciar sesión</a>
+                </p>
+            </form>
+        </div>
     </div>
 </div>
 @endsection

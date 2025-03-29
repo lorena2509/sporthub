@@ -2,21 +2,45 @@
 
 @section('content')
 <div class="container">
-    <h2 class="text-center my-4">Hola, Admin</h2>
-
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Panel de Administración</h5>
-            <p class="card-text">Bienvenido al panel de administración. Aquí puedes gestionar las reservas, usuarios e instalaciones.</p>
-            
-            <a href="{{ route('admin.reservas') }}" class="btn btn-primary">Ver Todas las Reservas</a> <!-- Nuevo botón -->
-            <a href="{{ route('admin.user') }}" class="btn btn-secondary">Usuarios</a> <!-- Botón existente -->
-            
-            <form action="{{ route('logout') }}" method="POST" class="mt-3">
-                @csrf
-                <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
-            </form>
-        </div>
-    </div>
+    <h1>Canchas</h1>
+    <a href="{{ route('admin.canchas.create') }}" class="btn btn-primary">Agregar Cancha</a>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Ubicación</th>
+                <th>Capacidad</th>
+                <th>Imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($canchas as $cancha)
+            <tr>
+                <td>{{ $cancha->id }}</td>
+                <td>{{ $cancha->nombre }}</td>
+                <td>{{ $cancha->ubicacion }}</td>
+                <td>{{ $cancha->capacidad }}</td>
+                <td>
+                    @if($cancha->imagen)
+                        <img src="{{ asset('storage/' . $cancha->imagen) }}" alt="{{ $cancha->nombre }}" width="100">
+                    @else
+                        No Image
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('admin.canchas.edit', $cancha->id) }}" class="btn btn-warning">Editar</a>
+                    <form action="{{ route('admin.canchas.destroy', $cancha->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 @endsection
