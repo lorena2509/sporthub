@@ -12,7 +12,6 @@
                 <th>Documento</th>
                 <th>Teléfono</th>
                 <th>Rol</th>
-              
             </tr>
         </thead>
         <tbody>
@@ -38,5 +37,6 @@
             @endforeach
         </tbody>
     </table>
+    <a href="{{ route('admin.index') }}" class="btn btn-secondary mt-3">Volver</a>
 </div>
 @endsection

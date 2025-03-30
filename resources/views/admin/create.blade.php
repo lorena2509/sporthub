@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Add Cancha</h1>
+    <h1>Crear una cancha</h1>
     <form action="{{ route('admin.canchas.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
@@ -21,7 +21,8 @@
             <label for="imagen">Imagen</label>
             <input type="file" class="form-control" id="imagen" name="imagen">
         </div>
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-primary">Crear</button>
+        <a href="{{ route('admin.canchasList') }}" class="btn btn-secondary mt-3">Volver</a>
     </form>
 </div>
 @endsection

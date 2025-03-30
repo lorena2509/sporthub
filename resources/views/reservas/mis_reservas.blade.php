@@ -3,7 +3,11 @@
 @section('content')
 <div class="container">
     <h2 class="text-center my-4">Mis Reservas</h2>
-
+    @if($reservas->isEmpty())
+        <div class="text-center fw-bold fs-5 text-dark bg-light p-3 rounded-3 shadow-sm">
+            <i class="fas fa-info-circle"></i> No hay reservas registradas en este momento.
+        </div>
+    @else
     <table class="table table-striped">
         <thead class="table-dark">
             <tr>
@@ -22,8 +26,8 @@
                     <td>{{ $reserva->cancha->nombre ?? 'Desconocida' }}</td>  
                     <td>{{ $reserva->estado->name }}</td> 
                     <td>{{ $reserva->fecha }}</td>
-                    <td>{{ $reserva->start_time }}</td>
-                    <td>{{ $reserva->end_time }}</td>
+                    <td class="text-success"><i class="fas fa-clock"></i> {{ \Carbon\Carbon::parse($reserva->start_time)->format('H:i') }}</td>
+                    <td class="text-danger"><i class="fas fa-clock"></i> {{ \Carbon\Carbon::parse($reserva->end_time)->format('H:i') }}</td>
                     <td>{{ $reserva->fecha_creada }}</td>
                     <td>
                         @if($reserva->estado->name == 'Reservado')
@@ -50,5 +54,7 @@
             @endforeach
         </tbody>
     </table>
+    @endif
+    <a href="{{ route('reservas.index') }}" class="btn btn-secondary mt-3">Volver</a>
 </div>
 @endsection

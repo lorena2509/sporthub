@@ -11,7 +11,7 @@ class CanchaController extends Controller
     public function index()
     {
         $canchas = Cancha::all();
-        return view('admin.index', compact('canchas'));
+        return view('admin.canchasList', compact('canchas'));
     }
 
     public function create()

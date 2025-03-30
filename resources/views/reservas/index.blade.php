@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="container">
+    @if(session()->has('error'))
+        <div class="text-center fw-bold fs-5 text-white bg-danger p-3 rounded-3 shadow-sm">
+            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+        </div>
+    @endif
     <h2 class="text-center my-4">Reservar Cancha</h2>
 
     <!-- Botón para ver mis reservas -->
@@ -72,6 +77,6 @@
         </div>
     </div>
     @endforeach
-
+    <a href="{{ route('login') }}" class="btn btn-secondary mt-3">Volver</a>
 </div>
 @endsection

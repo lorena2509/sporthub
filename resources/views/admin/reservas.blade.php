@@ -1,7 +1,17 @@
+@extends('layouts.app') {{-- Asegúrate de que el layout es el correcto --}}
+
+@section('title', 'Gestión de Reservas')
+
+@section('content')
 <div class="container mt-4">
     <h2 class="text-center mb-4">📅 Gestión de Reservas</h2>
     
-    <div class="table-responsive shadow-lg rounded-4">
+    @if($reservas->isEmpty())
+        <div class="text-center fw-bold fs-5 text-dark bg-light p-3 rounded-3 shadow-sm">
+            <i class="fas fa-info-circle"></i> No hay reservas registradas en este momento.
+        </div>
+    @else
+    <div class="table-responsive shadow-lg rounded-4 p-3 bg-white">
         <table class="table table-hover text-center align-middle">
             <thead class="table-dark">
                 <tr>
@@ -17,7 +27,7 @@
             </thead>
             <tbody>
                 @foreach($reservas as $reserva)
-                <tr class="align-middle">
+                <tr>
                     <td><strong>{{ $reserva->id }}</strong></td>
                     <td class="text-capitalize"><i class="fas fa-user"></i> {{ $reserva->user->name ?? 'N/A' }}</td>
                     <td class="fw-bold"><i class="fas fa-futbol"></i> {{ $reserva->cancha->nombre ?? 'N/A' }}</td>
@@ -61,4 +71,7 @@
             </tbody>
         </table>
     </div>
+    @endif
+    <a href="{{ route('admin.index') }}" class="btn btn-secondary mt-3">Volver</a>
 </div>
+@endsection
