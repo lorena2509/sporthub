@@ -59,7 +59,7 @@ Route::middleware(['auth', 'role:Cliente'])->group(function () {
     Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
     Route::get('/mis-reservas', [ReservaController::class, 'misReservas'])->name('reservas.misReservas');
     Route::delete('/reservas/{id}', [ReservaController::class, 'destroy'])->name('reservas.destroy');
-    Route::get('/reservas/{id}/edit', [ReservaController::class, 'edit'])->name('reservas.edit');
+    //Route::get('/reservas/{id}/edit', [ReservaController::class, 'edit'])->name('reservas.edit');
     Route::post('/reservas/{id}/cancelar', [ReservaController::class, 'cancelar'])->name('reservas.cancelar');
     Route::put('/reservas/{id}', [ReservaController::class, 'update'])->name('reservas.update');
 });

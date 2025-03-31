@@ -34,21 +34,19 @@
                             <!-- Botón para cancelar la reserva -->
                             <form action="{{ route('reservas.cancelar', $reserva->id) }}" method="POST" style="display:inline;">
                                 @csrf
-                                @method('PUT')
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas cancelar esta reserva?');">
                                     Cancelar
                                 </button>
                             </form>
                         @endif
-
-                        <!-- Botón Eliminar -->
+                        <!-- Botón Eliminar 
                         <form action="{{ route('reservas.destroy', $reserva->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta reserva?');">
                                 Eliminar
                             </button>
-                        </form>
+                        </form> -->
                     </td>
                 </tr>
             @endforeach

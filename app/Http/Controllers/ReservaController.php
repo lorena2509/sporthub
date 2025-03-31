@@ -19,14 +19,14 @@ class ReservaController extends Controller
         return view('reservas.index', compact('canchas'));
     }
 
-    public function listarReservas()
+    public function listarReservas() //Lista admin
     {
         // Obtener todas las reservas con la información del usuario y la cancha
         $reservas = Reserva::with('user', 'cancha')->orderBy('fecha', 'desc')->get();
         return view('admin.reservas', compact('reservas'));
     }
 
-    public function finalizar($id)
+    public function finalizar($id) //Finalizar admin
     {
         $reserva = Reserva::findOrFail($id);
         $estadoFinalizado = Estado::where('name', 'Finalizado')->first();
@@ -53,55 +53,79 @@ class ReservaController extends Controller
         return redirect()->back()->with('success', 'Reserva eliminada correctamente.');
     }
     
-
-    public function store(Request $request)
+    public function store(Request $request) //Crear Reserva
     {
         $request->validate([
             'cancha_id' => 'required|exists:canchas,id',
             'fecha' => 'required|date',
-            'hora' => 'required'
+            'hora' => 'required|date_format:H:i'
         ]);
-
-        // Asegurar que user_id tenga un valor válido
-        $userId = Auth::id(); // Obtiene el ID del usuario autenticado
-
+    
+        // Obtener el ID del usuario autenticado
+        $userId = Auth::id();
         if (!$userId) {
             return redirect()->route('reservas.index')->with('error', 'Debes iniciar sesión para hacer una reserva.');
         }
-            // Verificar si ya existe una reserva para la misma cancha, fecha y hora
-        $existeReserva = Reserva::where('cancha_id', $request->cancha_id)
-                                ->where('fecha', $request->fecha)
-                                ->where(function ($query) use ($request) {
-                                    $query->where('start_time', '<', Carbon::parse($request->hora)->addHours(2)->format('H:i:s'))
-                                        ->where('end_time', '>', $request->hora);
-                                })
-                                ->exists();
-        if ($existeReserva) {
-        return redirect()->route('reservas.index')->with('error', 'Esta cancha ya está reservada en esa fecha y hora.');
+    
+        // Convertir la hora ingresada a formato Carbon
+        $horaIngresada = Carbon::parse($request->hora);
+    
+        // Validar que la hora sea cerrada (ejemplo: 11:00, 12:00)
+        if ($horaIngresada->minute != 0) {
+            return redirect()->route('reservas.index')->with('error', 'Las reservas solo pueden hacerse en horas exactas (Ej: 11:00, 12:00).');
         }
-
+    
+        // Validar que la hora esté dentro del rango permitido (12 PM - 10 PM)
+        $horaPermitidaMin = Carbon::createFromTime(12, 0, 0);  // 12:00 PM
+        $horaPermitidaMax = Carbon::createFromTime(22, 0, 0);  // 10:00 PM
+        if ($horaIngresada->lessThan($horaPermitidaMin) || $horaIngresada->greaterThanOrEqualTo($horaPermitidaMax)) {
+            return redirect()->route('reservas.index')->with('error', 'Las reservas solo pueden hacerse entre 12:00 PM y 10:00 PM.');
+        }
+    
+        // Definir el rango de ocupación (2 horas)
+        $horaFin = $horaIngresada->copy()->addHours(2);
+    
+        // Verificar si la cancha ya está reservada en ese rango de tiempo
+        $existeReserva = Reserva::where('cancha_id', $request->cancha_id)
+            ->where('fecha', $request->fecha)
+            ->where(function ($query) use ($horaIngresada, $horaFin) {
+                $query->whereBetween('start_time', [$horaIngresada->format('H:i:s'), $horaFin->format('H:i:s')])
+                      ->orWhereBetween('end_time', [$horaIngresada->format('H:i:s'), $horaFin->format('H:i:s')])
+                      ->orWhere(function ($query) use ($horaIngresada, $horaFin) {
+                          $query->where('start_time', '<', $horaIngresada->format('H:i:s'))
+                                ->where('end_time', '>', $horaFin->format('H:i:s'));
+                      });
+            })
+            ->exists();
+    
+        if ($existeReserva) {
+            return redirect()->route('reservas.index')->with('error', 'Esta cancha ya está reservada en esta fecha y horario.');
+        }
+    
+        // Crear la reserva
         Reserva::create([
-            'user_id' => $userId,  // Ahora tomamos el ID del usuario autenticado
+            'user_id' => $userId,
             'cancha_id' => $request->cancha_id,
-            'estado_id' => 1, // Estado fijo en 1 Reservado
+            'estado_id' => 1,
             'fecha' => $request->fecha,
-            'fecha_creada' => Carbon::now()->toDateTimeString(), // Fecha y hora actual
-            'start_time' => $request->hora,
-            'end_time' => Carbon::parse($request->hora)->addHours(2)->format('H:i:s'), // Suma 2 horas
+            'fecha_creada' => Carbon::now()->toDateTimeString(),
+            'start_time' => $horaIngresada->format('H:i:s'),
+            'end_time' => $horaFin->format('H:i:s'),
         ]);
-
-        return redirect()->route('reservas.index')->with('success', 'Reserva realizada con éxito');
+    
+        return redirect()->route('reservas.index')->with('success', 'Reserva realizada con éxito.');
     }
-
-    public function cancelar($id)
+    
+    public function cancelar($id)//Cancelar Reserva
     {
         $reserva = Reserva::findOrFail($id);
-        $reserva->estado_id = 2; // Asumiendo que 3 (deberia ser 2) es el ID del estado "Cancelado"
+        $reserva->estado_id = 2; // ID del estado "Cancelado"
         $reserva->save();
 
         return redirect()->back()->with('success', 'Reserva cancelada correctamente.');
     }
 
+    //No se esta usando
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -124,7 +148,6 @@ class ReservaController extends Controller
 
         return redirect()->route('reservas.index')->with('success', 'Reserva actualizada correctamente.');
     }
-
     public function edit($id)
     {
         $reserva = Reserva::findOrFail($id); // Busca la reserva o lanza error 404

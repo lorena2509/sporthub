@@ -21,7 +21,11 @@
         <div class="form-group">
             <label for="imagen">Imagen</label>
             <input type="file" class="form-control" id="imagen" name="imagen">
-            <img src="{{ asset('storage/' . $cancha->imagen) }}" alt="{{ $cancha->nombre }}" width="100">
+            @if($cancha->imagen)
+                <img src="{{ $cancha->imagen }}" alt="{{ $cancha->nombre }}" class="img-thumbnail" style="width: 100px; height: auto;">
+            @else
+                <span class="text-muted">No Image</span>
+            @endif
         </div>
         <button type="submit" class="btn btn-primary">Actualizar</button>
         <a href="{{ route('admin.canchasList') }}" class="btn btn-secondary mt-3">Volver</a>

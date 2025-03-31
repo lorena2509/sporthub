@@ -25,9 +25,9 @@
                 <td>{{ $cancha->capacidad }}</td>
                 <td>
                     @if($cancha->imagen)
-                        <img src="{{ asset('storage/' . $cancha->imagen) }}" alt="{{ $cancha->nombre }}" width="100">
+                        <img src="{{ $cancha->imagen }}" alt="{{ $cancha->nombre }}" class="img-thumbnail" style="width: 100px; height: auto;">
                     @else
-                        No Image
+                        <span class="text-muted">No Image</span>
                     @endif
                 </td>
                 <td>
