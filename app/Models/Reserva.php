@@ -38,9 +38,6 @@ class Reserva extends Model
         return $this->belongsTo(Estado::class);
     }
 
-
-
-
     // Accesor para obtener la fecha en formato legible
     public function getFechaFormateadaAttribute() {
         return Carbon::parse($this->fecha)->format('d/m/Y');
@@ -55,5 +52,4 @@ class Reserva extends Model
     public function getHoraFinFormateadaAttribute() {
         return Carbon::parse($this->end_time)->format('H:i');
     }
-    
 }

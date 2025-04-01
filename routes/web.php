@@ -32,6 +32,7 @@ Route::middleware('auth')->get('/home', function () {
 // Rutas protegidas para ADMINISTRADORES
 Route::middleware(['auth', 'role:Administrador'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::delete('/reservas/{id}', [ReservaController::class, 'destroy'])->name('reservas.destroy');
     
     // CRUD de Canchas
     Route::get('/admin/canchasList', [CanchaController::class, 'index'])->name('admin.canchasList');
@@ -58,7 +59,6 @@ Route::middleware(['auth', 'role:Cliente'])->group(function () {
     Route::get('/reservas', [ReservaController::class, 'index'])->name('reservas.index');
     Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
     Route::get('/mis-reservas', [ReservaController::class, 'misReservas'])->name('reservas.misReservas');
-    Route::delete('/reservas/{id}', [ReservaController::class, 'destroy'])->name('reservas.destroy');
     //Route::get('/reservas/{id}/edit', [ReservaController::class, 'edit'])->name('reservas.edit');
     Route::post('/reservas/{id}/cancelar', [ReservaController::class, 'cancelar'])->name('reservas.cancelar');
     Route::put('/reservas/{id}', [ReservaController::class, 'update'])->name('reservas.update');
