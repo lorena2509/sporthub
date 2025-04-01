@@ -25,7 +25,7 @@ class CanchaController extends Controller
             'nombre' => 'required|string|max:255',
             'ubicacion' => 'required|string|max:255',
             'capacidad' => 'required|integer',
-            'imagen' => 'nu llable|image|max:2048',
+            'imagen' => 'nullable|image|max:2048',
         ]);
 
                     $cancha = new Cancha();
@@ -53,7 +53,7 @@ class CanchaController extends Controller
         return view('admin.edit', compact('cancha'));
     }
 
-    public function update(Request $request, $id)
+   public function update(Request $request, $id)
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
@@ -85,6 +85,7 @@ class CanchaController extends Controller
     
         return redirect()->route('admin.canchas.index')->with('success', 'Cancha actualizada exitosamente.');
     }
+    
     
 
     public function destroy($id)

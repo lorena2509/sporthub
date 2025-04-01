@@ -14,7 +14,7 @@ class CanchaFactory extends Factory
         return [
             'nombre' => $this->faker->word,
             'ubicacion' => $this->faker->address,
-           
+            'capacidad' => $this->faker->numberBetween(1, 100), // Proporciona un valor para capacidad
         ];
     }
 }

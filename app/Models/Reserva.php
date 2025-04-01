@@ -52,4 +52,6 @@ class Reserva extends Model
     public function getHoraFinFormateadaAttribute() {
         return Carbon::parse($this->end_time)->format('H:i');
     }
+
+    
 }

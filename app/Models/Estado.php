@@ -11,7 +11,7 @@ class Estado extends Model
 
     protected $table = 'estado'; // Nombre real de la tabla
 
-    protected $fillable = ['nombre']; // Campos permitidos para asignación masiva
+    protected $fillable = ['name']; // Campos permitidos para asignación masiva
    
     public function reservas()
     {
