@@ -43,6 +43,19 @@
                 </div>
             </a>
         </div>
+
+        <!-- Tarjeta: Ver Estadísticas -->
+        <div class="col-md-3">
+            <a href="{{ route('admin.estadisticas') }}" class="text-decoration-none">
+                <div class="card text-center shadow-lg p-4 rounded-4 border-0"
+                     style="background: rgba(200, 200, 200, 0.8); transition: transform 0.3s ease; width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title text-success fw-bold" style="font-size: 2rem;">📊 Ver Estadísticas</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
     </div>
 
 </div>

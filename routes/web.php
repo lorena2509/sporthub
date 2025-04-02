@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservaController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EstadisticasController;
 use App\Http\Controllers\CanchaController;
 use App\Http\Controllers\AdminController;
 
@@ -51,7 +52,9 @@ Route::middleware(['auth', 'role:Administrador'])->group(function () {
     // Administración de reservas
     Route::get('/admin/reservas', [ReservaController::class, 'listarReservas'])->name('admin.reservas');
     Route::put('/reservas/{id}/finalizar', [ReservaController::class, 'finalizar'])->name('reservas.finalizar');
-    //Route::delete('/admin/reservas/{id}', [AdminReservaController::class, 'destroy'])->name('admin.reservas.destroy');
+
+    Route::get('/admin/estadisticas', [EstadisticasController::class, 'index'])->name('admin.estadisticas');
+    // Removed PDF generation route
 });
 
 // Rutas protegidas para CLIENTES
@@ -59,7 +62,6 @@ Route::middleware(['auth', 'role:Cliente'])->group(function () {
     Route::get('/reservas', [ReservaController::class, 'index'])->name('reservas.index');
     Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
     Route::get('/mis-reservas', [ReservaController::class, 'misReservas'])->name('reservas.misReservas');
-    //Route::get('/reservas/{id}/edit', [ReservaController::class, 'edit'])->name('reservas.edit');
     Route::post('/reservas/{id}/cancelar', [ReservaController::class, 'cancelar'])->name('reservas.cancelar');
     Route::put('/reservas/{id}', [ReservaController::class, 'update'])->name('reservas.update');
 });
