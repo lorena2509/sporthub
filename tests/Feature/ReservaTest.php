@@ -172,6 +172,37 @@ class ReservaTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHas('error', 'Ya existe una reserva para esta cancha en el horario seleccionado.');
     }
+    public function test_usuario_no_puede_reservar_hora_ocupada()
+    {
+        // Crear un usuario autenticado
+        $user = User::factory()->create();
+
+        // Crear una cancha
+        $cancha = Cancha::factory()->create();
+
+        // Crear una reserva existente para la misma cancha y horario
+        $fechaHoraReserva = Carbon::now()->addDays(1)->setTime(10, 0); // Reserva existente a las 10:00
+        Reserva::create([
+            'user_id' => $user->id,
+            'cancha_id' => $cancha->id,
+            'estado_id' => 1, // Estado "Reservado"
+            'fecha' => $fechaHoraReserva->format('Y-m-d'),
+            'start_time' => $fechaHoraReserva->format('H:i:s'),
+            'end_time' => $fechaHoraReserva->addHours(2)->format('H:i:s'),
+        ]);
+
+        // Intentar hacer una nueva reserva para el mismo horario
+        $response = $this->actingAs($user)->post(route('reservas.store'), [
+            'cancha_id' => $cancha->id,
+            'fecha' => $fechaHoraReserva->format('Y-m-d'),
+            'hora' => $fechaHoraReserva->format('H:i'),
+        ]);
+
+        // Verificar que la respuesta es la que esperamos (mensaje de error)
+        $response->assertRedirect();
+        $response->assertSessionHas('error', 'Ya existe una reserva para esta cancha en el horario seleccionado.');
+    }
+
     public function test_reserva_no_puede_ser_hecha_para_el_mismo_dia()
     {
         // Crear un usuario autenticado

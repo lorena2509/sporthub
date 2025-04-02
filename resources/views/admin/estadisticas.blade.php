@@ -17,6 +17,26 @@
             <canvas id="comparativaChart" class="chart"></canvas>
         </div>
     </div>
+
+    <div class="container mt-4">
+        <h4 class="text-center">Resumen de Reservas por Mes</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Mes</th>
+                    <th>Total Reservas</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($reservasPorMes as $reserva)
+                    <tr>
+                        <td>{{ $reserva['mes'] }}</td>
+                        <td>{{ $reserva['total'] }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Script de Chart.js -->

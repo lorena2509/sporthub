@@ -54,13 +54,34 @@ class ReservaController extends Controller
         return redirect()->back()->with('success', 'Reserva eliminada correctamente.');
     }
     
-   public function store(Request $request)
+public function store(Request $request)
 {
     $validator = Validator::make($request->all(), [
         'cancha_id' => 'required|exists:canchas,id',
         'fecha' => 'required|date',
         'hora' => 'required|date_format:H:i',
     ]);
+
+    // Get the selected date and time
+    $fechaReserva = Carbon::parse($request->fecha)->toDateString();
+    $horaReserva = Carbon::parse($request->hora);
+    $horaReservaConSegundos = $horaReserva->format('H:i:s');
+    $horaFinReserva = $horaReserva->copy()->addHours(2)->format('H:i:s');
+    
+    // Check for existing reservations for the selected date and time
+    $reservaExistente = Reserva::where('cancha_id', $request->cancha_id)
+        ->where('fecha', $fechaReserva)
+        ->where(function ($query) use ($horaReservaConSegundos, $horaFinReserva) {
+            $query->where(function ($q) use ($horaReservaConSegundos, $horaFinReserva) {
+                $q->where('start_time', '<', $horaFinReserva)
+                  ->where('end_time', '>', $horaReservaConSegundos);
+            });
+        })
+        ->exists();
+
+    if ($reservaExistente) {
+        return redirect()->back()->with('error', 'Ya existe una reserva para esta cancha en el horario seleccionado.');
+    }
 
     if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput();
@@ -138,13 +159,35 @@ class ReservaController extends Controller
     }
 
     //No se esta usando
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'cancha_id' => 'required|exists:canchas,id',
-            'fecha' => 'required|date',
-            'start_time' => 'required|date_format:H:i',
-        ]);
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'cancha_id' => 'required|exists:canchas,id',
+        'fecha' => 'required|date',
+        'start_time' => 'required|date_format:H:i',
+    ]);
+
+    // Get the selected date and time
+    $fechaReserva = Carbon::parse($request->fecha)->toDateString();
+    $horaReserva = Carbon::parse($request->start_time);
+    $horaReservaConSegundos = $horaReserva->format('H:i:s');
+    $horaFinReserva = $horaReserva->copy()->addHours(2)->format('H:i:s');
+
+    // Check for existing reservations for the selected date and time
+    $reservaExistente = Reserva::where('cancha_id', $request->cancha_id)
+        ->where('fecha', $fechaReserva)
+        ->where(function ($query) use ($horaReservaConSegundos, $horaFinReserva) {
+            $query->where(function ($q) use ($horaReservaConSegundos, $horaFinReserva) {
+                $q->where('start_time', '<', $horaFinReserva)
+                  ->where('end_time', '>', $horaReservaConSegundos);
+            });
+        })
+        ->where('id', '!=', $id) // Exclude the current reservation
+        ->exists();
+
+    if ($reservaExistente) {
+        return redirect()->back()->with('error', 'Ya existe una reserva para esta cancha en el horario seleccionado.');
+    }
 
         // Calcular el end_time sumando 2 horas al start_time
         $startTime = Carbon::parse($request->start_time);
