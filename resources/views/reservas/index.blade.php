@@ -2,33 +2,11 @@
 
 @section('content')
 <div class="container">
-    <h2 class="text-center my-4">Reservar Cancha</h2>
+    <h2 class="text-center my-4" style="font-family: 'Arial Black', sans-serif; font-size: 2.5rem; color: #fff;">
+        📅 Reservar Cancha
+    </h2>
 
-    <!-- Mostrar errores de validación -->
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <!-- Mostrar mensajes de éxito -->
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <!-- Mostrar mensajes de error -->
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
+    <!-- Botón para ver mis reservas -->
     <div class="text-end mb-3">
         <a href="{{ route('reservas.misReservas') }}" class="btn btn-secondary">Ver Mis Reservas</a>
     </div>
@@ -37,13 +15,15 @@
         <div class="carousel-inner">
             @foreach($canchas as $index => $cancha)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                    <img src="{{ $cancha->imagen }}" class="d-block mx-auto rounded" style="max-width: 80%; height: auto;" alt="{{ $cancha->nombre }}">
-
-                    <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 p-3 rounded">
-                        <h5 class="text-white">{{ $cancha->nombre }}</h5>
-                        <p class="text-white">Ubicación: {{ $cancha->ubicacion }}</p>
-                        <p class="text-white">Capacidad: {{ $cancha->capacidad }} personas</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalReserva{{ $cancha->id }}">
+                    <img src="{{ asset('storage/' . $cancha->imagen) }}" class="d-block w-100 rounded border border-dark shadow-lg"
+                        style="height: 400px; object-fit: cover;" 
+                        alt="{{ $cancha->nombre }}">
+                    
+                    <div class="bg-dark bg-opacity-75 text-white text-center p-4 mt-2 rounded shadow-lg">
+                        <h4 class="fw-bold" style="font-family: 'Georgia', serif; font-size: 1.8rem;">⚽ {{ $cancha->nombre }}</h4>
+                        <p style="font-family: 'Times New Roman', serif; font-size: 1.2rem;">📍 Ubicación: {{ $cancha->ubicacion }}</p>
+                        <p style="font-family: 'Times New Roman', serif; font-size: 1.2rem;">👥 Capacidad: {{ $cancha->capacidad }} personas</p>
+                        <button class="btn btn-primary shadow-lg" data-bs-toggle="modal" data-bs-target="#modalReserva{{ $cancha->id }}">
                             Reservar
                         </button>
                     </div>
@@ -67,12 +47,9 @@
                     <h5 class="modal-title">Reservar {{ $cancha->nombre }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body text-center">
+                    <img src="{{ asset('storage/' . $cancha->imagen) }}" alt="{{ $cancha->nombre }}" class="img-thumbnail mb-3" style="max-width: 100%; height: auto; border-radius: 10px; display: block; margin: auto;">
 
-                    <!-- Imagen pequeña -->
-                    <img src="{{ $cancha->imagen }}" alt="{{ $cancha->nombre }}" class="img-thumbnail mb-3" style="max-width: 250px; border-radius: 10px;">
-
-                    <!-- Información de la cancha con texto en negro -->
                     <h5 class="fw-bold text-dark">{{ $cancha->nombre }}</h5>
                     <p class="text-dark"><strong>Ubicación:</strong> {{ $cancha->ubicacion }}</p>
                     <p class="text-dark"><strong>Capacidad:</strong> {{ $cancha->capacidad }} personas</p>
@@ -101,8 +78,6 @@
                                 @endforeach
                             </select>
                         </div>
-
-
 
                         <button type="submit" class="btn btn-success w-100">Confirmar Reserva</button>
                     </form>

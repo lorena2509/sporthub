@@ -1,14 +1,49 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1 class="text-center my-4">Menú Principal</h1>
-    
-    <div class="list-group">
-        <a href="{{ route('admin.canchasList') }}" class="list-group-item list-group-item-action">Administrar Canchas</a>
-        <a href="{{ route('admin.user') }}" class="list-group-item list-group-item-action">Administrar Usuarios</a>
-        <a href="{{ route('admin.reservas') }}" class="list-group-item list-group-item-action">Administrar Reservas</a>
+<div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 75vh;">
+    <h1 class="text-center my-4" style="font-family: 'Arial Black', sans-serif; font-size: 4.5rem; color: #2c3e50;">
+         Menú Principal
+    </h1>
+
+    <!-- Añadí margen superior para separar el título de las tarjetas -->
+    <div class="row w-100 d-flex justify-content-center gap-4" style="margin-top: 70px;">
+        <!-- Tarjeta: Administrar Canchas -->
+        <div class="col-md-3">
+            <a href="{{ route('admin.canchasList') }}" class="text-decoration-none">
+                <div class="card text-center shadow-lg p-4 rounded-4 border-0"
+                     style="background: rgba(200, 200, 200, 0.8); transition: transform 0.3s ease; width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary fw-bold" style="font-size: 2rem;">⚽ Administrar Canchas</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Tarjeta: Administrar Usuarios -->
+        <div class="col-md-3">
+            <a href="{{ route('admin.user') }}" class="text-decoration-none">
+                <div class="card text-center shadow-lg p-4 rounded-4 border-0"
+                     style="background: rgba(200, 200, 200, 0.8); transition: transform 0.3s ease; width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary fw-bold" style="font-size: 2rem;">👥 Administrar Usuarios</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Tarjeta: Administrar Reservas -->
+        <div class="col-md-3">
+            <a href="{{ route('admin.reservas') }}" class="text-decoration-none">
+                <div class="card text-center shadow-lg p-4 rounded-4 border-0"
+                     style="background: rgba(200, 200, 200, 0.8); transition: transform 0.3s ease; width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary fw-bold" style="font-size: 2rem;">📅 Administrar Reservas</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
-    <a href="{{ route('login') }}" class="btn btn-secondary mt-3">Volver</a>
+
 </div>
 @endsection
