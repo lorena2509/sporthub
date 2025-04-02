@@ -40,38 +40,48 @@ class EstadisticasController extends Controller
         return Reserva::count(); // Returns the total number of reservations
     }
 
-    // New method to get reservations by month
-    public function getReservasPorMes()
+    public function getReservasPorMes() 
     {
-        $reservasPorMes = Reserva::selectRaw('YEAR(created_at) as year, MONTH(created_at) as mes, COUNT(*) as total')
-            ->groupBy('year', 'mes')
-            ->orderBy('mes')
+        // Obtener las reservas agrupadas por año y mes
+        $reservasPorMes = Reserva::selectRaw('YEAR(fecha) as year, MONTH(fecha) as month, COUNT(*) as total')
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'asc')
+            ->orderBy('month', 'asc')
             ->get();
 
-        // Array of month names in Spanish
+        // Nombres de los meses en español
         $meses = [
-            1 => 'Enero',
-            2 => 'Febrero',
-            3 => 'Marzo',
-            4 => 'Abril',
-            5 => 'Mayo',
-            6 => 'Junio',
-            7 => 'Julio',
-            8 => 'Agosto',
-            9 => 'Septiembre',
-            10 => 'Octubre',
-            11 => 'Noviembre',
-            12 => 'Diciembre'
+            1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
+            5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
+            9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
         ];
 
-        // Structure the data by month
-        return $reservasPorMes->map(function ($reserva) use ($meses) {
-            $reserva->mes = $meses[$reserva->mes]; // Convert month number to Spanish name
-            return [
-                'mes' => $reserva->mes,
-                'total' => $reserva->total // Total reservations for the month
+        // Inicializar un array para almacenar los totales por mes
+        $totalesPorMes = array_fill_keys(array_keys($meses), ['mes' => '', 'total' => 0]);
+
+        // Llenar el array con los totales por mes
+        foreach ($reservasPorMes as $reserva) {
+            $mesKey = $reserva->month; // Obtener el mes
+            $totalesPorMes[$mesKey] = [
+                'mes' => $meses[$mesKey] . " " . $reserva->year, // Formato "Mes Año"
+                'total' => $reserva->total // Total de reservas para ese mes
             ];
-        });
+        }
+
+        // Asegurarse de que todos los meses estén presentes en el resultado
+        foreach ($meses as $key => $nombre) {
+            if ($totalesPorMes[$key]['mes'] === '') {
+                $totalesPorMes[$key] = [
+                    'mes' => $nombre . " " . date('Y'), // Usar el año actual
+                    'total' => 0 // Si no hay reservas, el total es 0
+                ];
+            }
+        }
+
+        // Ordenar el array por mes
+        ksort($totalesPorMes);
+
+        return array_values($totalesPorMes); // Retornar solo los valores
     }
 
     public function getReservadas()
