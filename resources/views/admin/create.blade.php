@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <div class="card shadow-lg p-4 rounded-4" style="background: rgba(200, 200, 200, 0.8); max-width: 500px; width: 100%;">
-        <h1 class="text-center mb-4" style="font-family: 'Arial Black', sans-serif; font-size: 2rem; color: #2c3e50;">
+    <div class="card shadow-lg p-4 rounded-4" style="background: rgba(255, 255, 255, 0.8); max-width: 500px; width: 100%;">
+        <h1 class="text-center mb-4" style="font-family: 'Arial Black', sans-serif; font-size: 2rem; color: white;">
             ⚽ Crear una Cancha
         </h1>
 

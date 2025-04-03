@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="text-center my-4" style="font-family: 'Arial Black', sans-serif; font-size: 2.5rem; color: #333;">
+    <h1 class="text-center my-4" style="font-family: 'Arial Black', sans-serif; font-size: 2.5rem; color: white;">
         ⚽ Lista de Canchas
     </h1>
     
@@ -13,12 +13,12 @@
     <table class="table table-hover shadow-lg rounded-4">
         <thead class="table-dark text-center">
             <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Ubicación</th>
-                <th>Capacidad</th>
-                <th>Imagen</th>
-                <th>Acciones</th>
+                <th style="color: white;">ID</th>
+                <th style="color: white;">Nombre</th>
+                <th style="color: white;">Ubicación</th>
+                <th style="color: white;">Capacidad</th>
+                <th style="color: white;">Imagen</th>
+                <th style="color: white;">Acciones</th>
             </tr>
         </thead>
         <tbody class="text-center align-middle">

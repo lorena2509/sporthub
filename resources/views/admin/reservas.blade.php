@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2 class="text-center mb-4">📅 Gestión de Reservas</h2>
+    <h2 class="text-center mb-4" style="color: white;">📅 Gestión de Reservas</h2>
     
     @if($reservas->isEmpty())
         <div class="text-center fw-bold fs-5 text-dark bg-light p-3 rounded-3 shadow-sm">
@@ -15,14 +15,14 @@
         <table class="table table-hover text-center align-middle">
             <thead class="table-dark">
                 <tr>
-                    <th>ID</th>
-                    <th>Usuario</th>
-                    <th>Cancha</th>
-                    <th>Fecha</th>
-                    <th>Hora Inicio</th>
-                    <th>Hora Fin</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
+                    <th style="color: white;">ID</th>
+                    <th style="color: white;">Usuario</th>
+                    <th style="color: white;">Cancha</th>
+                    <th style="color: white;">Fecha</th>
+                    <th style="color: white;">Hora Inicio</th>
+                    <th style="color: white;">Hora Fin</th>
+                    <th style="color: white;">Estado</th>
+                    <th style="color: white;">Acciones</th>
                 </tr>
             </thead>
             <tbody>

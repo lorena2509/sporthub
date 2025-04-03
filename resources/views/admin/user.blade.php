@@ -2,18 +2,18 @@
 
 @section('content')
 <div class="container">
-    <h1 class="text-center my-4" style="font-family: 'Arial Black', sans-serif; font-size: 2.5rem; color: #333;">
+    <h1 class="text-center my-4" style="font-family: 'Arial Black', sans-serif; font-size: 2.5rem; color: white;">
         🏅 Lista de Usuarios
     </h1>
 
     <table class="table table-hover shadow-lg rounded-4 border border-dark"> <!-- Aquí agregamos el borde negro -->
         <thead class="table-dark text-center">
             <tr>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Documento</th>
-                <th>Teléfono</th>
-                <th>Rol</th>
+                <th style="color: white;">Nombre</th>
+                <th style="color: white;">Email</th>
+                <th style="color: white;">Documento</th>
+                <th style="color: white;">Teléfono</th>
+                <th style="color: white;">Rol</th>
             </tr>
         </thead>
         <tbody class="text-center align-middle">
@@ -43,4 +43,3 @@
     </div>
 </div>
 @endsection
-
