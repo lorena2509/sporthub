@@ -16,6 +16,11 @@
         <input class="login-button" type="submit" value="Inicia sesión">
     </form>
 <div class="text-center">
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 <span class="forgot-password" style="font-size: 1.5em;"><a href="{{ route('register') }}">No tienes cuenta aún? Crea tu cuenta acá</a></span>
 </div>
 </div>
