@@ -11,6 +11,8 @@ use App\Models\Estado;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ConfirmacionReserva;
+use App\Mail\ReservaCancelada;
+
 
 
 class ReservaController extends Controller
@@ -110,6 +112,7 @@ class ReservaController extends Controller
         $reserva = Reserva::findOrFail($id);
         $reserva->estado_id = 2; // ID del estado "Cancelado"
         $reserva->save();
+        Mail::to($reserva->user->email)->send(new ReservaCancelada($reserva));
 
         return redirect()->back()->with('success', 'Reserva cancelada correctamente.');
     }
