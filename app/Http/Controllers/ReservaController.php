@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Estado;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ConfirmacionReserva;
+
 
 class ReservaController extends Controller
 {
@@ -86,7 +89,7 @@ class ReservaController extends Controller
         }
 
         // Crear la nueva reserva
-        Reserva::create([
+        $reserva = Reserva::create([
             'user_id' => Auth::id(),
             'cancha_id' => $request->cancha_id,
             'estado_id' => 1,
@@ -95,7 +98,10 @@ class ReservaController extends Controller
             'start_time' => $horaReservaConSegundos,
             'end_time' => $horaFinReserva,
         ]);
-
+        
+        // Enviar correo de confirmación
+        Mail::to(Auth::user()->email)->send(new ConfirmacionReserva($reserva));
+        
         return redirect()->route('reservas.index')->with('success', 'Reserva realizada con éxito');
     }
 
