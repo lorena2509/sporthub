@@ -55,7 +55,7 @@ Route::middleware(['auth', 'role:Administrador'])->group(function () {
 });
 
 // Rutas protegidas para CLIENTES
-Route::middleware(['auth', 'role:Cliente'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:Cliente'])->group(function () {
     Route::get('/reservas', [ReservaController::class, 'index'])->name('reservas.index');
     Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
     Route::get('/mis-reservas', [ReservaController::class, 'misReservas'])->name('reservas.misReservas');
