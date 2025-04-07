@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+<link rel="stylesheet" href="{{ asset('css/card-styles.css') }}">
 @endsection
 
 @section('title', 'Inicio de Sesión')
@@ -22,6 +22,5 @@
     </div>
 @endif
 <span class="forgot-password" style="font-size: 1.5em;"><a href="{{ route('register') }}">No tienes cuenta aún? Crea tu cuenta acá</a></span>
-</div>
 </div>
 @endsection

@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ConfirmacionReserva;
 use App\Mail\ReservaCancelada;
 
-
-
 class ReservaController extends Controller
 {
     public function index()
@@ -71,6 +69,14 @@ class ReservaController extends Controller
         $horaReservaConSegundos = $horaReserva->format('H:i:s');
         $horaFinReserva = $horaReserva->copy()->addHours(2)->format('H:i:s');
         
+        // Check if the selected date and time are in the past
+        $fechaActual = Carbon::now()->toDateString();
+        $horaActual = Carbon::now()->format('H:i:s');
+
+        if ($fechaReserva < $fechaActual || ($fechaReserva == $fechaActual && $horaReservaConSegundos < $horaActual)) {
+            return redirect()->back()->with('error', 'No se puede reservar una fecha u hora pasada.');
+        }
+
         // Check for existing reservations for the selected date and time
         $reservaExistente = Reserva::where('cancha_id', $request->cancha_id)
             ->where('fecha', $fechaReserva)
@@ -84,10 +90,6 @@ class ReservaController extends Controller
 
         if ($reservaExistente) {
             return redirect()->back()->with('error', 'Ya existe una reserva para esta cancha en el horario seleccionado.');
-        }
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         // Crear la nueva reserva
@@ -130,6 +132,14 @@ class ReservaController extends Controller
         $horaReserva = Carbon::parse($request->start_time);
         $horaReservaConSegundos = $horaReserva->format('H:i:s');
         $horaFinReserva = $horaReserva->copy()->addHours(2)->format('H:i:s');
+
+        // Check if the selected date and time are in the past
+        $fechaActual = Carbon::now()->toDateString();
+        $horaActual = Carbon::now()->format('H:i:s');
+
+        if ($fechaReserva < $fechaActual || ($fechaReserva == $fechaActual && $horaReservaConSegundos < $horaActual)) {
+            return redirect()->back()->with('error', 'No se puede reservar una fecha u hora pasada.');
+        }
 
         // Check for existing reservations for the selected date and time
         $reservaExistente = Reserva::where('cancha_id', $request->cancha_id)

@@ -6,6 +6,20 @@
         📅 Reservar Cancha
     </h2>
 
+    <!-- Display error messages -->
+    <!-- Display success messages -->
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <!-- Botón para ver mis reservas -->
     <div class="text-end mb-3">
         <a href="{{ route('reservas.misReservas') }}" class="btn btn-secondary">Ver Mis Reservas</a>
