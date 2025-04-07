@@ -13,7 +13,7 @@
     <style>
         body {
             font-family: 'Bebas Neue', sans-serif;
-            background-color:rgb(89, 98, 107); /* Blue background */
+            background-color:rgba(27, 27, 27, 0.84); /* Blue background */
         }
 
         .navbar {

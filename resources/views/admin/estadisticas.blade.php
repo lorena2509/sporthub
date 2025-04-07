@@ -134,6 +134,8 @@
             }
         });
     </script>
+        <a href="{{ route('admin.index') }}" class="btn btn-secondary mt-3">Volver</a>
+
 
 @endsection
 
@@ -161,9 +163,6 @@
     h4 {
         text-align: center;
         margin-bottom: 20px;
-        color: black; /* Set title color to black */
-    }
-</style>
         color: black; /* Set title color to black */
     }
 </style>
