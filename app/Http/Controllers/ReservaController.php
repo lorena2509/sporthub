@@ -104,7 +104,13 @@ class ReservaController extends Controller
         ]);
         
         // Enviar correo de confirmación
-        Mail::to(Auth::user()->email)->send(new ConfirmacionReserva($reserva));
+try {
+    Mail::to(Auth::user()->email)->send(new ConfirmacionReserva($reserva));
+} catch (\Exception $e) {
+    // Log the error and notify the user
+    \Log::error('Error sending confirmation email: ' . $e->getMessage());
+    return redirect()->route('reservas.index')->with('error', 'Reserva realizada con éxito, pero hubo un problema al enviar el correo de confirmación.');
+}
         
         return redirect()->route('reservas.index')->with('success', 'Reserva realizada con éxito');
     }
@@ -114,7 +120,13 @@ class ReservaController extends Controller
         $reserva = Reserva::findOrFail($id);
         $reserva->estado_id = 2; // ID del estado "Cancelado"
         $reserva->save();
-        Mail::to($reserva->user->email)->send(new ReservaCancelada($reserva));
+try {
+    Mail::to($reserva->user->email)->send(new ReservaCancelada($reserva));
+} catch (\Exception $e) {
+    // Log the error and notify the user
+    \Log::error('Error sending cancellation email: ' . $e->getMessage());
+    return redirect()->back()->with('success', 'Reserva cancelada correctamente, pero hubo un problema al enviar el correo de cancelación.');
+}
 
         return redirect()->back()->with('success', 'Reserva cancelada correctamente.');
     }

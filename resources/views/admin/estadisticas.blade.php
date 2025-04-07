@@ -164,3 +164,6 @@
         color: black; /* Set title color to black */
     }
 </style>
+        color: black; /* Set title color to black */
+    }
+</style>
