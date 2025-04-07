@@ -3,7 +3,12 @@
 @section('title', 'Gestión de Reservas')
 
 @section('content')
-<div class="container mt-4">
+<div class="container mt-4">    
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <h2 class="text-center mb-4" style="color: white;">📅 Gestión de Reservas</h2>
     
     @if($reservas->isEmpty())

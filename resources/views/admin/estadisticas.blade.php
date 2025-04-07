@@ -23,15 +23,15 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th style="color: black;">Mes</th>
-                        <th style="color: black;">Total Reservas</th>
+                        <th style="text-align: center;">Mes</th>
+                        <th style="text-align: center;">Total Reservas</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($reservasPorMes as $reserva)
                         <tr>
-                            <td>{{ $reserva['mes'] }}</td>
-                            <td>{{ $reserva['total'] }}</td>
+                        <td style="text-align: center;">{{ $reserva['mes'] }}</td>
+                        <td style="text-align: center;">{{ $reserva['total'] }}</td>
                         </tr>
                     @endforeach
                 </tbody>

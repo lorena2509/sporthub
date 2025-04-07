@@ -89,7 +89,7 @@ class ReservaController extends Controller
             ->exists();
 
         if ($reservaExistente) {
-            return redirect()->back()->with('error', 'Ya existe una reserva para esta cancha en el horario seleccionado.');
+            return redirect()->back()->with('error', 'No se puede realizar la reserva. Ya existe una reserva para esta cancha en el horario seleccionado.');
         }
 
         // Crear la nueva reserva
@@ -166,7 +166,7 @@ try {
             ->exists();
 
         if ($reservaExistente) {
-            return redirect()->back()->with('error', 'Ya existe una reserva para esta cancha en el horario seleccionado.');
+            return redirect()->back()->with('error', 'No se puede realizar la reserva. Ya existe una reserva para esta cancha en el horario seleccionado.');
         }
 
         // Calcular el end_time sumando 2 horas al start_time
